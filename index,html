@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Rectangle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            font-family: 'Roboto', sans-serif;
+        }
+        .green-bar {
+            position: absolute;
+            top: -15px;
+            width: 100%;
+            height: 340px;
+            background-color: green;
+            border-radius: 15px;
+        }
+        .grey-bar-left {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: calc(50% - 15px);
+            height: 100px;
+            background-color: grey;
+            border-radius: 10px;
+            overflow: hidden; /* Ensures text doesn't overflow */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centering content vertically */
+        }
+
+        .scrolling-text {
+            white-space: nowrap;
+            animation: scroll-left 15s linear infinite;
+            font-size: 75px;
+            color: white;
+            padding-left: 0%; /* Start outside of container */
+        }
+
+        @keyframes scroll-left {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        .grey-bar-right {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: calc(50% - 15px);
+            height: 100px;
+            background-color: black;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .grey-bar-right .left-third {
+            width: 66.66%;
+            height: 80%;
+            background-color: white;
+            border-radius: 10px 10px 10px 10px;
+            padding: 10px; /* Padding added here */
+            display: flex;  /* Make it a flex container */
+            justify-content: center;  /* Center content horizontally */
+            align-items: center;  /* Center content vertically */
+        }
+
+        .grey-bar-right .right-third {
+            width: 33.33%;
+            height: 93%;
+            background-color: transparent;
+            border: 3px solid white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 75px;
+            text-align: center;
+        }
+        .right-third .seconds {
+            font-size: 55px;
+        }
+        .rounded-corner-square {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 235px;
+            height: 265px;
+            background-color: #1b993b;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 10px;
+        }
+        .platform-text {
+            font-size: 35px;
+            color: white;
+            margin-top: 10px;
+        }
+        .platform-id {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            text-align: center;
+            margin-top: -15px;
+        }
+        .time-box {
+            position: absolute;
+            top: 25px;
+            left: 270px;
+            color: white;
+            font-size: 110px;
+            padding: 10px 10px;
+        }
+        .destination-box {
+            position: absolute;
+            top: 152px;
+            left: 270px;
+            color: white;
+            font-size: 110px;
+            padding: 10px 10px;
+        }
+        .actual-time-box {
+            position: absolute;
+            top: 25px;
+            right: 15px;
+            color: white;
+            font-size: 110px;
+            padding: 10px 10px;
+        }
+        .calling-at-box {
+            position: absolute;
+            top: 350px;
+            left: 25px;
+            font-size: 50px;
+            color: yellow;
+        }
+        /* Style for the station list */
+        .station-list {
+            position: absolute;
+            top: 420px;
+            left: 25px;
+            color: white;
+            font-size: 60px;
+            max-height: 60%;
+            width: 892px;
+            padding-right: 15px;
+        }
+        .station-list-item {
+            margin: 5px 0;
+        }
+        .station-list-duplicate {
+            position: absolute;
+            top: 420px;
+            left: 992px;
+            color: white;
+            font-size: 60px;
+            max-height: 60%;
+            width: 892px;
+            padding-right: 15px;
+        }
+.calling-times {
+    position: absolute;
+    top: 425px;
+    right: 247px;
+    color: white;
+    font-size: 60px;
+    max-height: 60%;
+    width: 892px;
+}
+
+.calling-times-duplicate {
+    position: absolute;
+    top: 425px;
+    right: 70px;
+    color: white;
+    font-size: 60px;
+    max-height: 60%;
+    width: 100px;
+}
+        .square {
+            width: 60px;
+            height: 65px;
+            margin-right: -1px;  /* Small gap between squares */
+            border: 5px solid white;  /* White outline for the squares */
+            background-color: transparent;  /* Transparent background */
+            display: inline-block;
+            border-radius: 5px;
+            
+        }
+
+        .triangle {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-bottom: 20px solid white; /* The visible part of the triangle */
+            border-left: 10px solid transparent; /* Left side transparent */
+            margin-right: 0; /* No margin to the right */
+        }
+/* Add margin between items in the list */
+.calling-times-item, .calling-times-duplicate .calling-times-item {
+    margin-bottom: 5px;  /* Adds a 5px margin between items */
+}
+        .icon {
+            position: absolute;
+            bottom: 12.5px;
+            left: 12.5px;
+            width: 75px;
+            height: 75px;
+        }
+        
+
+    </style>
+</head>
+<body>
+    </div>
+    <div class="green-bar"></div>
+    <div class="rounded-square"></div>
+    <div class="calling-at-box">Calling at:</div>
+    <div class="grey-bar-left"></div>
+    <div class="grey-bar-right">
+        <div class="left-third"></div>
+        <div class="right-third">
+            <div id="time-display"></div>
+        </div>
+    </div>
+    <div class="rounded-corner-square">
+        <div class="platform-text">Platform</div>
+        <div class="platform-id"></div>
+    </div>
+    <div class="time-box" id="time-box"></div>
+    <div class="destination-box" id="destination-box"></div>
+    <div class="actual-time-box" id="actual-time-box"></div>
+    <div id="station-list" class="station-list"></div>
+    <div id="station-list-duplicate" class="station-list-duplicate"></div>
+    <div id="calling-times" class="calling-times"></div>
+    <div id="calling-times-duplicate" class="calling-times-duplicate"></div>
+        <div class="triangle"></div>
+        
+
+    <!-- Grey Bar -->
+    <div class="grey-bar-left">
+        <!-- Scrolling Text -->
+        <div class="scrolling-text">
+            This departure board is not yet finished. Some features have not been added yet. 
+        </div>
+
+        <img class="icon" src="https://www.avantiwestcoast.co.uk/Assets/img/svg/status-info-icon.svg" alt="Info Icon">
+    <script>
+/// Function to fetch and process the staff departures data
+function fetchStaffDepartures() {
+    const apiUrl = 'https://huxley2.azurewebsites.net/staffdepartures/CAR';
+
+    // Fetch the data from the API
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON data
+        })
+        .then(data => {
+            // Access the 'trainServices' array
+            const trainServices = data.trainServices;
+
+            // Ensure that trainServices exists and has at least one service
+            if (trainServices && trainServices.length > 0) {
+                const firstService = trainServices[1]; // Get the first service
+
+                // Check if 'length' is not '0'
+                if (firstService.length !== 0) {
+                    console.log(`Service length is: ${firstService.length}`);
+                    updateSquares(firstService.length); // Create/update squares based on 'length'
+                } else {
+                    // If 'length' is '0', check 'formation'
+                    const formation = firstService.formation;
+                    if (formation && formation.coaches && formation.coaches.length > 0) {
+                        // Get the last coach
+                        const lastCoach = formation.coaches[formation.coaches.length - 1];
+                        
+                        // Check if 'number' exists and doesn't contain letters
+                        if (lastCoach && lastCoach.number && !/[a-zA-Z]/.test(lastCoach.number)) {
+                            console.log(`Service formation is: ${lastCoach.number}`);
+                            updateSquares(lastCoach.number); // Create/update squares based on the 'number'
+                        } else {
+                            // Use the total number of coaches if 'number' contains letters or is invalid
+                            console.log(`Service formation is: ${formation.coaches.length} (count of coaches)`);
+                            updateSquares(formation.coaches.length); // Create/update squares based on the coach count
+                        }
+                    } else {
+                        console.log('No coaches found in the formation.');
+                        removeSquares(); // Remove squares and text box if no coaches
+                    }
+                }
+            } else {
+                console.log('No train services available.');
+                removeSquares(); // Remove squares and text box if no train services
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error); // Log any errors that occur
+        });
+}
+
+// Function to create or update squares based on the number
+function updateSquares(number) {
+    // Check if the squares container already exists
+    let squaresContainer = document.getElementById('squaresContainer');
+    let textBox = document.getElementById('coachesTextBox');
+    
+    // If the container doesn't exist, create it
+    if (!squaresContainer) {
+        squaresContainer = document.createElement('div');
+        squaresContainer.id = 'squaresContainer';
+        squaresContainer.style.position = 'absolute';
+        squaresContainer.style.left = '15px'; // Position 15px from the left of the page
+        squaresContainer.style.bottom = '120px'; // Position 120px from the bottom of the page
+        document.body.appendChild(squaresContainer);
+    }
+
+    // Remove any existing squares
+    squaresContainer.innerHTML = '';  
+
+    // Create the specified number of squares
+    for (let i = 0; i < number; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        squaresContainer.appendChild(square);
+    }
+
+    // If the text box doesn't exist, create it
+    if (!textBox) {
+        textBox = document.createElement('div');
+        textBox.id = 'coachesTextBox';
+        textBox.style.position = 'absolute';
+        textBox.style.fontSize = '50px';
+        textBox.style.color = 'white'; // Text color white
+        document.body.appendChild(textBox);
+    }
+
+    // Position the text box after the last square
+    textBox.style.left = `${15 + number * 71}px`; // Position after the last square, move right by 10px
+    textBox.style.bottom = '120px'; // Same bottom positioning as squares
+    textBox.textContent = `x${number}`; // Display 'x' followed by the number of coaches
+}
+
+// Function to remove squares and the text box
+function removeSquares() {
+    const squaresContainer = document.getElementById('squaresContainer');
+    const textBox = document.getElementById('coachesTextBox');
+    
+    // Remove the squares container if it exists
+    if (squaresContainer) {
+        squaresContainer.remove();
+    }
+
+    // Remove the text box if it exists
+    if (textBox) {
+        textBox.remove();
+    }
+}
+
+// Initial call to fetch and display the data
+fetchStaffDepartures();
+
+// Set an interval to fetch the data every 15 seconds
+setInterval(fetchStaffDepartures, 15000); // 15000 milliseconds = 15 seconds
+
+
+
+
+function fetchLiveDepartures() {
+    console.log("Starting to fetch live departures...");
+
+    fetch('https://api.leddepartureboard.com/api/LiveDepartures/GetLatestDepatures?stationCode=CAR&count=1&dataSource=NATIONALRAIL')
+        .then(response => {
+            console.log("Received response from API:", response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Parsed response data:", data);
+
+            if (data && Array.isArray(data) && data[0] && Array.isArray(data[0].stops) && data[0].stops.length > 0) {
+                console.log("Found stops data, processing...");
+
+                const stops = data[0].stops;
+
+                // Extract aimedDeparture and expectedDeparture times
+                console.log("Extracting aimedDeparture and expectedDeparture times...");
+                const stationDetails = stops.map(stop => {
+                    const aimedDeparture = new Date(stop.aimedDeparture); // Convert to Date
+                    const expectedDeparture = new Date(stop.expectedDeparture); // Convert to Date
+
+                    console.log(`For station: ${stop.stationName}, Aimed Departure: ${aimedDeparture}, Expected Departure: ${expectedDeparture}`);
+
+                    return {
+                        stationName: stop.stationName,
+                        aimedDeparture: `${aimedDeparture.getHours().toString().padStart(2, '0')}:${aimedDeparture.getMinutes().toString().padStart(2, '0')}`,
+                        expectedDeparture: `${expectedDeparture.getHours().toString().padStart(2, '0')}:${expectedDeparture.getMinutes().toString().padStart(2, '0')}`,
+                    };
+                });
+
+                console.log("Station details extracted:", stationDetails);
+
+                // Existing station list elements
+                const stationListElement = document.getElementById('station-list');
+                const stationListDuplicateElement = document.getElementById('station-list-duplicate');
+
+                // New calling times elements
+                const callingTimesElement = document.getElementById('calling-times');
+                const callingTimesDuplicateElement = document.getElementById('calling-times-duplicate');
+
+                console.log("Clearing current content in the UI...");
+
+                // Clear current content
+                stationListElement.innerHTML = '';
+                stationListDuplicateElement.innerHTML = '';
+                callingTimesElement.innerHTML = '';
+                callingTimesDuplicateElement.innerHTML = '';
+
+                // Populate station details (station name, expected time) in existing elements
+                console.log("Populating station details in the station list...");
+                stationDetails.slice(0, 5).forEach(detail => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('station-list-item');
+                    listItem.textContent = `${detail.stationName} | Expected: ${detail.expectedDeparture}`;
+                    stationListElement.appendChild(listItem);
+                });
+
+                stationDetails.slice(5, 10).forEach(detail => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('station-list-item');
+                    listItem.textContent = `${detail.stationName} | Expected: ${detail.expectedDeparture}`;
+                    stationListDuplicateElement.appendChild(listItem);
+                });
+
+                console.log("Populating calling times in the calling times list...");
+                // Populate calling times in new elements
+                stationDetails.slice(0, 5).forEach(detail => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('calling-times-item');
+                    listItem.textContent = detail.aimedDeparture;
+                    callingTimesElement.appendChild(listItem);
+                });
+
+                stationDetails.slice(5, 10).forEach(detail => {
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('calling-times-item');
+                    listItem.textContent = detail.aimedDeparture;
+                    callingTimesDuplicateElement.appendChild(listItem);
+                });
+
+                console.log("Updating other data on the page...");
+                // Add other data to the DOM
+                document.getElementById('time-box').textContent = stationDetails[0].aimedDeparture;
+                document.getElementById('destination-box').textContent = stops[0].destination;
+                document.getElementById('actual-time-box').textContent = new Date().toLocaleTimeString();
+
+  
+
+                console.log("Live departure data processing complete.");
+            } else {
+                console.error('Unexpected response structure or no stops data available');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Live Departures data:', error);
+        });
+}
+
+// Call the function to fetch the live departures data
+fetchLiveDepartures();
+
+
+        // Fetch live departures data initially
+        fetchLiveDepartures();
+
+        // Fetch live departures every 15 seconds (you can adjust the interval)
+        setInterval(fetchLiveDepartures, 15000);
+
+                // Function to fetch Live Departure data for calling points
+let previousStops = null; // Store the previous stops data for comparison
+
+function fetchLiveDepartures() {
+    fetch('https://api.leddepartureboard.com/api/LiveDepartures/GetLatestDepatures?stationCode=CAR&count=2&dataSource=NATIONALRAIL')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Full Response from Live Departures API:");
+            console.log(data);
+
+            if (data && Array.isArray(data) && data[0] && Array.isArray(data[0].stops) && data[0].stops.length > 0) {
+                const stops = data[1].stops; // Get stops array
+
+                // Compare with previous stops to see if an update is needed
+                const stopsChanged = JSON.stringify(stops) !== JSON.stringify(previousStops);
+
+                if (!stopsChanged) {
+                    console.log("No changes in calling points, skipping update.");
+                    return; // No changes, so we don't need to update the display
+                }
+
+                previousStops = stops; // Update previous stops for the next comparison
+
+                const stationListElement = document.getElementById('station-list');
+                const stationListDuplicateElement = document.getElementById('station-list-duplicate');
+                const callingTimesElement = document.getElementById('calling-times');
+                const callingTimesDuplicateElement = document.getElementById('calling-times-duplicate');
+
+                // Clear existing content
+                stationListElement.innerHTML = '';
+                stationListDuplicateElement.innerHTML = '';
+                callingTimesElement.innerHTML = '';
+                callingTimesDuplicateElement.innerHTML = '';
+
+                // Display first 5 calling points in the main list
+                const firstFiveStations = stops.slice(0, 5); // Get first 5 stops
+                firstFiveStations.forEach(stop => {
+                    const aimedDeparture = new Date(stop.aimedDeparture);
+                    const expectedDeparture = new Date(stop.expectedDeparture);
+
+                    let departureTime = '';
+                    let textColor = 'white'; // Default text color is white
+
+                    if (aimedDeparture.getTime() === expectedDeparture.getTime()) {
+                        departureTime = `${aimedDeparture.getHours().toString().padStart(2, '0')}:${aimedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                    } else if (Math.abs(expectedDeparture - aimedDeparture) > 60000) { // 1 minute threshold
+                        departureTime = `${expectedDeparture.getHours().toString().padStart(2, '0')}:${expectedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                        textColor = 'yellow';
+                    } else {
+                        departureTime = `${aimedDeparture.getHours().toString().padStart(2, '0')}:${aimedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                    }
+
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('station-list-item');
+                    listItem.textContent = `${stop.stationName}`;
+                    listItem.style.color = 'white';
+                    stationListElement.appendChild(listItem);
+
+                    const callingTimesItem = document.createElement('div');
+                    callingTimesItem.classList.add('calling-times-item');
+                    callingTimesItem.textContent = departureTime;
+                    callingTimesItem.style.color = textColor;
+                    callingTimesElement.appendChild(callingTimesItem);
+                });
+
+                // Display next 5 calling points in the duplicate list
+                const nextFiveStations = stops.slice(5, 10); // Get next 5 stops
+                nextFiveStations.forEach(stop => {
+                    const aimedDeparture = new Date(stop.aimedDeparture);
+                    const expectedDeparture = new Date(stop.expectedDeparture);
+
+                    let departureTime = '';
+                    let textColor = 'white';
+
+                    if (aimedDeparture.getTime() === expectedDeparture.getTime()) {
+                        departureTime = `${aimedDeparture.getHours().toString().padStart(2, '0')}:${aimedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                    } else if (Math.abs(expectedDeparture - aimedDeparture) > 60000) {
+                        departureTime = `${expectedDeparture.getHours().toString().padStart(2, '0')}:${expectedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                        textColor = 'yellow';
+                    } else {
+                        departureTime = `${aimedDeparture.getHours().toString().padStart(2, '0')}:${aimedDeparture.getMinutes().toString().padStart(2, '0')}`;
+                    }
+
+                    const listItem = document.createElement('div');
+                    listItem.classList.add('station-list-item');
+                    listItem.textContent = `${stop.stationName}`;
+                    listItem.style.color = 'white';
+                    stationListDuplicateElement.appendChild(listItem);
+
+                    const callingTimesItem = document.createElement('div');
+                    callingTimesItem.classList.add('calling-times-item');
+                    callingTimesItem.textContent = departureTime;
+                    callingTimesItem.style.color = textColor;
+                    callingTimesDuplicateElement.appendChild(callingTimesItem);
+                });
+
+                // Ensure the text box exists and update its content
+                let textBox = document.getElementById('pageTextBox');
+                if (!textBox) {
+                    textBox = document.createElement('div');
+                    textBox.id = 'pageTextBox';
+                    textBox.style.position = 'absolute';
+                    textBox.style.left = '992px';
+                    textBox.style.top = '350px';
+                    textBox.style.fontSize = '40px';
+                    textBox.style.width = '425px';
+                    textBox.style.height = '50px';
+                    textBox.style.borderRadius = '5px';
+                    textBox.style.border = '2px solid black';
+                    textBox.style.textAlign = 'center';
+                    textBox.style.lineHeight = '50px';
+                    textBox.style.color = 'black';
+                    document.body.appendChild(textBox);
+                }
+                textBox.textContent = `Page 1 of 2`;
+            } else {
+                console.log("No stops data available.");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Live Departures:', error);
+        });
+}
+
+// Call the function periodically
+setInterval(fetchLiveDepartures, 15000);
+
+
+
+                // Call the function to fetch the live departures data
+        fetchLiveDepartures();
+
+        // Fetch live departures data every 15 seconds (you can adjust the interval)
+        setInterval(fetchLiveDepartures, 15000);
+        
+        // Fetch data from API and update station list every 15 seconds
+        fetchLiveDepartures(); // Initial fetch
+        setInterval(fetchLiveDepartures, 15000); // Update every 15 seconds
+
+const operatorsColors = {
+  "Avanti West Coast": "#FFFFFF",
+  "Caledonian Sleeper": "#FFFFFF",
+  "Chiltern Railways": "#FFFFFF",
+  "CrossCountry": "#FFFFFF",
+  "c2c": "#FFFFFF",
+  "East Midlands Railway": "#FFFFFF",
+  "Eurostar": "#FFFFFF",
+  "Hull Trains": "#FFFFFF",
+  "Grand Central": "#FFFFFF",
+  "Govia Thameslink Railway": "#FFFFFF",
+  "Greater Anglia": "#FFFFFF",
+  "Heathrow Express": "#FFFFFF",
+  "Hull Trains": "#FFFFFF",
+  "London North Eastern Railway": "#FFFFFF",
+  "West Midlands Trains": "#FFFFFF",
+  "Lumo": "#FFFFFF",
+  "Northern": "#FFFFFF",
+  "ScotRail": "#FFFFFF",
+  "Southern": "#FFFFFF",
+  "Southeastern": "#FFFFFF",
+  "South Western Railway": "#FFFFFF",
+  "Stansted Express": "#FFFFFF",
+  "TransPennine Express": "#FFFFFF",
+  "Transport For Wales": "#FFFFFF",
+};
+
+        // List of operators and their corresponding logos
+        const operatorsLogos = {
+            "Avanti West Coast": "https://upload.wikimedia.org/wikipedia/en/c/c8/Avanti_West_Coast_Logo.svg",
+            "c2c": "https://upload.wikimedia.org/wikipedia/en/3/37/C2c_logo.svg",
+            "Caledonian Sleeper": "https://upload.wikimedia.org/wikipedia/en/3/37/CaledonianSleeper.svg",
+            "Chiltern Railways": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Chiltern_railw_logo.svg",
+            "CrossCountry": "https://upload.wikimedia.org/wikipedia/en/2/2f/CrossCountryTrains.svg",
+            "East Midlands Railway": "https://upload.wikimedia.org/wikipedia/en/5/5c/East_Midlands_Railway_logo.svg",
+            "Elizabeth Line": "https://upload.wikimedia.org/wikipedia/commons/7/74/Elizabeth_line_roundel.svg",
+            "Eurostar": "https://upload.wikimedia.org/wikipedia/commons/3/33/Eurostar_logo_%282023%29.svg",
+            "Gatwick Express": "https://upload.wikimedia.org/wikipedia/en/c/ce/GatwickExpress2016.svg",
+            "Great Northern": "https://upload.wikimedia.org/wikipedia/en/1/18/GreatNorthernLogo.svg",
+            "Southern": "https://upload.wikimedia.org/wikipedia/en/9/91/SouthernRailwayLogo.svg",
+            "Grand Central": "https://upload.wikimedia.org/wikipedia/en/c/c9/GrandCentralVector.svg",
+            "Greater Anglia": "https://upload.wikimedia.org/wikipedia/en/6/6e/AbellioEastAnglia.svg",
+            "Great Western Railway": "https://upload.wikimedia.org/wikipedia/commons/7/70/Great_Western_Railway_%282015%29_logo.svg",
+            "Heathrow Express": "https://upload.wikimedia.org/wikipedia/en/b/b5/HeathrowExpress.svg",
+            "Hull Trains": "https://upload.wikimedia.org/wikipedia/en/5/56/HullTrains2015.svg",
+            "London North Eastern Railway": "https://upload.wikimedia.org/wikipedia/commons/1/18/LNER_Logo_2019.svg",
+            "Lumo": "https://upload.wikimedia.org/wikipedia/commons/2/2d/LumoLogo.png",
+            "Merseyrail": "https://upload.wikimedia.org/wikipedia/commons/5/52/Merseyrail_logo.svg",
+            "Northern": "https://upload.wikimedia.org/wikipedia/en/8/8b/Northern_Trains.svg",
+            "ScotRail": "https://upload.wikimedia.org/wikipedia/en/8/8e/ScotRail_logo.svg",
+            "Southeastern": "https://upload.wikimedia.org/wikipedia/en/9/92/Southeastern-toc-logo-light.svg",
+            "South Western Railway": "https://upload.wikimedia.org/wikipedia/en/3/39/SouthWesternRailway.svg",
+            "TransPennine Express": "https://upload.wikimedia.org/wikipedia/en/c/c2/TransPennineExpress.svg",
+            "Transport For Wales": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Transport_wales_logo18.svg",
+            "Thameslink": "https://static.thameslinkrailway.com/images/single/logo-9fb6eac02a.svg",
+            "West Midlands Trains": "https://raw.githubusercontent.com/MichaelH12345/toc_logo/main/LNR-WMR-Logos.png",
+            "London Overground": "https://upload.wikimedia.org/wikipedia/commons/e/eb/London_Overground_logo.svg"
+        };
+
+        // Log each operator and their logo URL
+        console.log("Operator logos:");
+        for (const operator in operatorsLogos) {
+            console.log(`${operator}: ${operatorsLogos[operator]}`);
+        }
+
+        // Function to update the time every second
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes} <span class="seconds">${seconds}</span>`;
+            document.getElementById('time-display').innerHTML = timeString;
+        }
+
+ // Fetch data from API
+function fetchData() {
+    fetch('https://railinfo.southwesternrailway.com/journey/departures/CAR') // Replace with your API URL
+        .then(response => response.json())
+        .then(data => {
+            const firstItem = data.Items[1]; // Get the first item
+            console.log(firstItem); // Output the first item to the console
+            
+            // Set platform font size to 125px
+            const platform = firstItem.Platform;
+            const platformText = document.querySelector('.platform-id');
+            platformText.textContent = platform;
+            platformText.style.fontSize = '135px'; // Always set to 125px
+
+            // Scheduled time color adjustment
+            const scheduledTime = firstItem.ScheduledTime;
+            const timeBox = document.querySelector('.time-box');
+            timeBox.textContent = scheduledTime;
+            if (scheduledTime === 'Delayed' || !isNaN(scheduledTime)) {
+                timeBox.style.color = 'yellow';
+            } else if (scheduledTime === 'Cancelled') {
+                timeBox.style.color = 'yellow';
+            } else {
+                timeBox.style.color = 'white'; // Default color
+            }
+
+            // Estimated time and adding "Exp" if needed
+            const estimatedTime = firstItem.EstimatedTime;
+            const actualTimeBox = document.querySelector('.actual-time-box');
+
+            if (['On time'].includes(estimatedTime)) {
+                actualTimeBox.textContent = estimatedTime;
+                actualTimeBox.style.color = 'white'; // Default color for On time
+            } else if (estimatedTime === 'Delayed') {
+                actualTimeBox.textContent = estimatedTime;
+                actualTimeBox.style.color = 'yellow'; // Set color to yellow if Delayed
+            } else if (estimatedTime === 'Cancelled') {
+                actualTimeBox.textContent = estimatedTime;
+                actualTimeBox.style.color = 'yellow'; // Set color to red if Cancelled
+            } else {
+                actualTimeBox.textContent = `Exp ${estimatedTime}`;
+                actualTimeBox.style.color = 'yellow'; // Default color for other cases
+            }
+
+            // Destination
+            const destination = firstItem.Destination.Name;
+            const destinationBox = document.querySelector('.destination-box');
+            destinationBox.textContent = destination;
+
+            // Operator color matching and setting the left-third color
+            const operator = firstItem.Operator;
+            const leftThird = document.querySelector('.left-third');
+            if (operatorsColors[operator]) {
+                leftThird.style.backgroundColor = operatorsColors[operator];
+            } else {
+                leftThird.style.backgroundColor = '#ffffff'; // Default color if not found
+            }
+
+            // Set the operator logo in the right-third rectangle
+            const rightThird = document.querySelector('.left-third');
+            const operatorLogoURL = operatorsLogos[operator];
+
+            if (operatorLogoURL) {
+                const logoImg = document.createElement('img');
+                logoImg.src = operatorLogoURL;
+                logoImg.alt = operator + " logo"; // Alt text for accessibility
+                logoImg.style.maxWidth = '100%'; // Ensure it fits within the container
+                logoImg.style.maxHeight = '100%'; // Ensure it fits within the container
+                rightThird.innerHTML = ''; // Clear any existing content in the right-third div
+                rightThird.appendChild(logoImg); // Add the logo image
+            }
+
+            // Log to the console
+            console.log("Platform:", platform);
+            console.log("Scheduled Time:", scheduledTime);
+            console.log("Estimated Time:", estimatedTime);
+            console.log("Destination:", destination);
+            console.log("Operator:", operator);
+            console.log("Operator Color:", operatorsColors[operator] || 'Not Found');
+            console.log("Operator Logo URL:", operatorLogoURL);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+
+// Fetch data every 15 seconds
+fetchData(); // Initial fetch
+setInterval(fetchData, 15000); // Update every 15 seconds
+
+// Update the time every second
+setInterval(updateTime, 1000);
+updateTime(); // Initial time display
+
+
+    </script>
+</body>
+</html>
